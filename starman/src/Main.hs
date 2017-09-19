@@ -1,6 +1,7 @@
 module Main where
 
-import System.IO
+import System.IO (hFlush, stdout)
+import System.Random (getStdRandom, randomR)
 
 check :: String -> String -> Char -> (Bool, String)
 check word display c = (r, d)
@@ -27,5 +28,12 @@ mkguess w d n = do
 starman :: String -> Int -> IO()
 starman word = turn word (map (\_ -> '-') word)
 
+rollDice :: Int -> IO Int
+rollDice n = getStdRandom (randomR (0, n-1))
+
 main :: IO ()
-main = starman "functionally" 5
+main = do
+    words <- fmap lines (readFile "/usr/share/dict/words")
+    index <- rollDice (length words)
+    let word = words !! index
+    starman word 5
