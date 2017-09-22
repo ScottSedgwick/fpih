@@ -4,7 +4,10 @@ import Types
 
 myUpdate :: Msg -> Model -> (Model, Maybe Msg)
 myUpdate MsgBack model = (model { nextGuess = tail (nextGuess model) }, Nothing)
-myUpdate msgColor model = (model', Nothing)
+myUpdate msgColor model = 
+    if gameWon model /= GsPlaying
+    then (model, Nothing)
+    else (model', Nothing)
     where
         newColor = msgToColor msgColor
         nextGuess' = newColor : nextGuess model

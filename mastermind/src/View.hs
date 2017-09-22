@@ -10,10 +10,21 @@ myView w model = do
         drawBoard cs
         drawGuesses cs (guesses model)
         drawPartialGuess cs (fromIntegral $ 1 + (length $ guesses model) * 2) (reverse (nextGuess model))
+        drawPlayingMessage cs (gameWon model)
         moveCursor 0 0
     render
   where
     cs = colours model
+
+drawPlayingMessage :: [ColorID] -> GameState -> Update()
+drawPlayingMessage cs gs = do
+    let s = case gs of
+                GsPlaying -> "Playing"
+                GsWon -> "You win!"
+                GsLost -> "You lost!"
+    moveCursor 25 2
+    setColor $ guessColor cs GcWhite
+    drawString s
 
 drawThing :: Glyph -> Integer -> Integer -> ColorID -> Update()
 drawThing g x y c = do
@@ -25,7 +36,7 @@ drawGPeg :: Integer -> Integer -> ColorID -> Update()
 drawGPeg = drawThing glyphDiamond
 
 drawGuesses :: [ColorID] -> [GuessLine] -> Update()
-drawGuesses cs gs = mapM_ (drawGuessLine cs) $ zip [2,4..] gs
+drawGuesses cs gs = mapM_ (drawGuessLine cs) $ zip [1..] (reverse gs)
 
 drawRPeg :: Integer -> Integer -> ColorID -> Update()
 drawRPeg = drawThing glyphBullet
