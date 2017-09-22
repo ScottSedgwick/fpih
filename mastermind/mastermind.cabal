@@ -1,0 +1,28 @@
+name:                mastermind
+version:             0.1.0.0
+-- synopsis:
+-- description:
+homepage:            https://github.com/ScottSedgwick/mastermind#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Scott Sedgwick
+maintainer:          ssedgwick@cochlear.com
+copyright:           Copyright 1996 Cochlear Ltd
+category:            General
+build-type:          Simple
+cabal-version:       >=1.10
+extra-source-files:  README.md
+
+executable mastermind
+  hs-source-dirs:      src
+  main-is:             Main.hs
+  other-modules:       Colors
+                     , Events
+                     , TeaNCurses
+                     , Types
+                     , Update
+                     , View
+  default-language:    Haskell2010
+  build-depends:       base >= 4.7 && < 5
+                     , mtl
+                     , ncurses
