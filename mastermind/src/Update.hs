@@ -1,9 +1,10 @@
 module Update (myUpdate) where
 
+import Data.List (sort)
 import Types
 
 myUpdate :: Msg -> Model -> (Model, Maybe Msg)
-myUpdate MsgBack model = (model { nextGuess = tail (nextGuess model) }, Nothing)
+myUpdate MsgBack model = (model { nextGuess = safetail (nextGuess model) }, Nothing)
 myUpdate msgColor model = 
     if gameWon model /= GsPlaying
     then (model, Nothing)
@@ -14,6 +15,10 @@ myUpdate msgColor model =
         (nextGuess'', guesses') = checkIfGuessDone (answer model) nextGuess' (guesses model)
         won = checkIfWon (answer model) guesses' 
         model' = model { nextGuess = nextGuess'', guesses = guesses', gameWon = won }
+
+safetail :: [a] -> [a]
+safetail [] = []
+safetail (_:xs) = xs
 
 checkIfGuessDone :: Guess -> [GuessColor] -> [GuessLine] -> ([GuessColor], [GuessLine])
 checkIfGuessDone ans ng gs =
@@ -31,30 +36,29 @@ colorsToGuess _ _ = ((GcWhite, GcWhite, GcWhite, GcWhite), (RcNone, RcNone, RcNo
 getResult :: Guess -> Guess -> Result
 getResult a g = lstToTuple $ reds ++ whites ++ nones
     where
-        reds = replicate (redScore a g) RcRed
-        whites = replicate (whiteScore a g) RcWhite
+        (rs, ws) = score a g
+        reds = replicate rs RcRed
+        whites = replicate ws RcWhite
         nones = replicate 4 RcNone
 
-redScore :: Guess -> Guess -> Int
-redScore as gs = sum $ map f $ zip (tupleToLst as) (tupleToLst gs)
-    where
-        f (a, g) = if a == g then 1 else 0
-        
-whiteScore :: Guess -> Guess -> Int
--- can this be calculated as the sum of the min of the counts for each colour in each set?
--- nope.  It doesn't exclude the correct color & correct place ones.  Crap.
-whiteScore as gs = (sum $ map tmin prs)
-    where
-        acs = colorCounts as
-        gcs = colorCounts gs
-        prs = zip acs gcs
-        tmin (a,b) = if a < b then a else b
+score :: Guess -> Guess -> (Int, Int)
+score at gt = (rs, ws)
+  where
+    as = tupleToLst at
+    gs = tupleToLst gt
+    xs = filter (\(x,y) -> x /= y) $ zip as gs
+    rs = 4 - length xs
+    (as', gs') = unzip xs
+    ws = whiteScore (sort as') (sort gs')
 
-colorCounts :: Guess -> [Int]
-colorCounts cs = map (colorCount cs) [GcBlue .. GcYellow]
-
-colorCount :: Guess -> GuessColor -> Int
-colorCount cs c = length $ filter (== c) (tupleToLst cs)
+whiteScore :: [GuessColor] -> [GuessColor] -> Int
+whiteScore [] _ = 0
+whiteScore _ [] = 0
+whiteScore (a:as) (g:gs) = s + whiteScore as' gs'
+  where
+    as' = if a > g then a:as else as
+    gs' = if g > a then g:gs else gs
+    s = if a == g then 1 else 0
 
 lstToTuple :: [ResultColor] -> Result
 lstToTuple (a:b:c:d:_) = (a,b,c,d)

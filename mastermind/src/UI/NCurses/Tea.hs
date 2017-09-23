@@ -1,4 +1,4 @@
-module TeaNCurses (TeaApp(..), program)  where
+module UI.NCurses.Tea (TeaApp(..), program)  where
 
 import UI.NCurses
 

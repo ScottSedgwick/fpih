@@ -18,7 +18,7 @@ executable mastermind
   main-is:             Main.hs
   other-modules:       Colors
                      , Events
-                     , TeaNCurses
+                     , UI.NCurses.Tea
                      , Types
                      , Update
                      , View
