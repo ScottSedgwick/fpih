@@ -2,7 +2,7 @@ module Types where
 
 import UI.NCurses
 
-data GuessColor = GcBlue | GcRed | GcPurple | GcGreen | GcWhite | GcYellow deriving (Eq, Ord, Enum)
+data GuessColor = GcBlue | GcRed | GcPurple | GcGreen | GcWhite | GcYellow deriving (Eq, Ord, Enum, Bounded)
 data ResultColor = RcRed | RcWhite | RcNone deriving (Eq, Ord, Enum)
 
 type Guess = (GuessColor, GuessColor, GuessColor, GuessColor)
