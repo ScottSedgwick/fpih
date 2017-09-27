@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+    <list-elt>
+        <record name="MkPersonRecord">
+            <elt key="name">"Wim Vanderbauwhede"</elt>
+            <elt key="address">
+                <record name="MkAddress">
+                    <elt key="line1">"School of Computing Science"</elt>
+                    <elt key="number">17</elt>
+                    <elt key="street">"Lilybank Gdns"</elt>
+                    <elt key="town">"Glasgow"</elt>
+                    <elt key="postcode">"G12 8QQ"</elt>
+                </record>
+            </elt>
+            <elt key="id">557188</elt>
+            <elt key="labels">
+                <list>
+                    <list-elt>
+                        <adt>Green</adt>
+                    </list-elt>
+                    <list-elt>
+                        <adt>Red</adt>
+                    </list-elt>
+                </list>
+            </elt>
+        </record>
+    </list-elt>
+    <list-elt>
+        <record name="MkPersonRecord">
+            <elt key="name">"Jeremy Singer"</elt>
+            <elt key="address">
+                <record name="MkAddress">
+                    <elt key="line1">"School of Computing Science"</elt>
+                    <elt key="number">17</elt>
+                    <elt key="street">"Lilybank Gdns"</elt>
+                    <elt key="town">"Glasgow"</elt>
+                    <elt key="postcode">"G12 8QQ"</elt>
+                </record>
+            </elt>
+            <elt key="id">42</elt>
+            <elt key="labels">
+                <list>
+                    <list-elt>
+                        <adt>Blue</adt>
+                    </list-elt>
+                    <list-elt>
+                        <adt>Yellow</adt>
+                    </list-elt>
+                </list>
+            </elt>
+        </record>
+    </list-elt>
+</list>
